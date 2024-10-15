@@ -18,8 +18,8 @@ port = 3306
 # Create the SQLAlchemy engine
 engine = create_engine(connectDB(host, database, user, password, port))
 
-# Create the tables in the database
-Base.metadata.create_all(engine)
+# Create the tables in the database if they don't exist
+Base.metadata.create_all(engine, checkfirst=True)
 
 # Create a session to interact with the database
 Session = sessionmaker(bind=engine)
