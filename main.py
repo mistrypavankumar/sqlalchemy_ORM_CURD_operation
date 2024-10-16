@@ -1,4 +1,4 @@
-from actions import add_book, search_books, update_book_by_isbn_number,delete_book_by_isbn_number
+from actions import add_book, search_books, update_book_by_isbn_number, delete_book_by_isbn_number
 from db_connect import connectDB
 from models import Base
 
@@ -37,10 +37,12 @@ while True:
         display_search_results(search_results)
     elif choice == 3:
         title, author, isbn, publication_year, quantity, categories, tags = add_book_input()
-        add_book(session=session, title=title, author=author, isbn=isbn, publication_year=publication_year, quantity=quantity, categories=categories, tags=tags)
+        add_book(session=session, title=title, author=author, isbn=isbn,
+                 publication_year=publication_year, quantity=quantity, categories=categories, tags=tags)
     elif choice == 4:
         isbn, title, author, publication_year, quantity, categories, tags = update_book_input()
-        update_book_by_isbn_number(session,isbn, title, author, publication_year, quantity, categories, tags)
+        update_book_by_isbn_number(
+            session, isbn, title, author, publication_year, quantity, categories, tags)
     elif choice == 5:
         isbn = delete_book_input()
 
@@ -49,12 +51,12 @@ while True:
     elif choice == 6:
         init(autoreset=True)
 
-         # clear screen
+        # clear screen
         print("\033[H\033[J")
         print(f"{Fore.GREEN}Exiting the library management system")
         break
-       
-try:    
+
+try:
     # Commit the transaction
     session.commit()
 except Exception as e:
