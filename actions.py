@@ -37,7 +37,7 @@ def add_book(session, title, author, isbn, publication_year, quantity=1, categor
                 session.add(tag)
             new_book.tags.append(tag)
 
-    session.flush()
+    session.commit()
     print(f"{Fore.GREEN}Book '{title}' has been added successfully.")
     return new_book
 
