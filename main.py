@@ -30,24 +30,38 @@ while True:
     choice = displayTasks()
 
     if choice == 1:
+        # Shows top 5 books
         get_top_5_books(session)
     elif choice == 2:
         keyword = input("Enter the keyword to search: ")
         search_results = search_books(session, keyword)
+
+        # This shows the books based on the search keywords
         display_search_results(search_results)
     elif choice == 3:
+
+        # This function will take the input from the user
         title, author, isbn, publication_year, quantity, categories, tags = add_book_input()
+
+        # This function will add a new book into the databse
         add_book(session=session, title=title, author=author, isbn=isbn,
                  publication_year=publication_year, quantity=quantity, categories=categories, tags=tags)
     elif choice == 4:
+        # This function will take the input from the user
         isbn, title, author, publication_year, quantity, categories, tags = update_book_input()
+
+        # This function will update the book based on the ISBN number
         update_book_by_isbn_number(
             session, isbn, title, author, publication_year, quantity, categories, tags)
     elif choice == 5:
+
+        # This function will take the input from the user
         isbn = delete_book_input()
 
         if isbn:
+            # This function will delete the book based on the ISBN number
             delete_book_by_isbn_number(session, isbn)
+
     elif choice == 6:
         init(autoreset=True)
 
