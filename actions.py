@@ -5,6 +5,7 @@ from models import Book, Category, Tag
 from colorama import init, Fore
 
 
+# This function is used to add a new book into Book table
 def add_book(session, title, author, isbn, publication_year, quantity=1, categories=None, tags=None):
     init(autoreset=True)
 
@@ -19,6 +20,7 @@ def add_book(session, title, author, isbn, publication_year, quantity=1, categor
                     publication_year=publication_year, quantity=quantity)
     session.add(new_book)
 
+    # Add categories to the book
     if categories:
         for category_name in categories:
             category = session.execute(select(Category).filter_by(
@@ -28,6 +30,7 @@ def add_book(session, title, author, isbn, publication_year, quantity=1, categor
                 session.add(category)
             new_book.categories.append(category)
 
+    # Add tags to the book
     if tags:
         for tag_name in tags:
             tag = session.execute(select(Tag).filter_by(
@@ -42,6 +45,7 @@ def add_book(session, title, author, isbn, publication_year, quantity=1, categor
     return new_book
 
 
+# This function is used to update book details by using the ISBN number
 def update_book_by_isbn_number(session, isbn, title=None, author=None, publication_year=None, quantity=None, categories=None, tags=None):
     init(autoreset=True)
 
@@ -99,10 +103,12 @@ def update_book_by_isbn_number(session, isbn, title=None, author=None, publicati
         return None
 
 
+# This function is used to search book from Book table using keywords like title, category anything
 def search_books(session, keyword):
     BookCategory = aliased(Book.categories.property.secondary)
     BookTag = aliased(Book.tags.property.secondary)
 
+    # Create a query to search books based on the keyword
     query = (
         select(Book)
         .distinct()
@@ -127,6 +133,7 @@ def search_books(session, keyword):
     return search_results
 
 
+# This function is used to delete a book using isbn number
 def delete_book_by_isbn_number(session, isbn):
     init(autoreset=True)
 

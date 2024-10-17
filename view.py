@@ -4,6 +4,8 @@ from colorama import Fore, init
 
 from models import Book
 
+
+# This function used to display the tasks which can be performed by the user
 def displayTasks():
     init(autoreset=True)
 
@@ -21,12 +23,13 @@ def displayTasks():
     return choice
 
 
+# This function is used to get the top 5 books from the database
 def get_top_5_books(session):
-    init(autoreset=True) 
+    init(autoreset=True)
 
-     # clear screen
+    # clear screen
     print("\033[H\033[J")
-    
+
     print(f"\n{Fore.GREEN}********* Top 5 Books ************")
 
     # Query to get the top 10 books
@@ -42,16 +45,18 @@ def get_top_5_books(session):
             print(f"{Fore.GREEN}{i}. {Fore.WHITE}{book.title}")
             print(f"   {Fore.CYAN}Author: {Fore.WHITE}{book.author}")
             print(f"   {Fore.CYAN}ISBN: {Fore.WHITE}{book.isbn}")
-            print(f"   {Fore.CYAN}Publication Year: {Fore.WHITE}{book.publication_year}")
+            print(f"   {Fore.CYAN}Publication Year: {
+                  Fore.WHITE}{book.publication_year}")
             print(f"   {Fore.CYAN}Quantity: {Fore.WHITE}{book.quantity}")
             print()
 
     print(f"{Fore.GREEN}************************************************")
 
 
+# This function is used to search books based on the keyword and display to the user
 def display_search_results(results):
     init(autoreset=True)
-    
+
     # clear screen
     print("\033[H\033[J")
 
@@ -64,15 +69,18 @@ def display_search_results(results):
             print(f"{Fore.GREEN}{i}. Title: {book.title}")
             print(f"   {Fore.CYAN}Author: {Fore.WHITE}{book.author}")
             print(f"   {Fore.CYAN}ISBN: {Fore.WHITE}{book.isbn}")
-            print(f"   {Fore.CYAN}Publication Year: {Fore.WHITE}{book.publication_year}")
+            print(f"   {Fore.CYAN}Publication Year: {
+                  Fore.WHITE}{book.publication_year}")
             print(f"   {Fore.CYAN}Quantity: {Fore.WHITE}{book.quantity}")
-            print(f"   {Fore.CYAN}Categories: {Fore.WHITE}{', '.join(category.name for category in book.categories)}")
-            print(f"   {Fore.CYAN}Tags: {Fore.WHITE}{', '.join(tag.name for tag in book.tags)}")
+            print(f"   {Fore.CYAN}Categories: {Fore.WHITE}{
+                  ', '.join(category.name for category in book.categories)}")
+            print(f"   {Fore.CYAN}Tags: {Fore.WHITE}{
+                  ', '.join(tag.name for tag in book.tags)}")
             print()
             print(f"{Fore.GREEN}--------------------------------------------------")
-        
 
 
+# This function is used to take the input from the user to add a new book
 def add_book_input():
     print("\n*********** Add Book ***********")
     title = input("Enter the title of the book: ")
@@ -80,25 +88,28 @@ def add_book_input():
     isbn = input("Enter the ISBN of the book: ")
     publication_year = int(input("Enter the publication year of the book: "))
     quantity = int(input("Enter the quantity of the book: "))
-    categories = input("Enter the categories of the book (comma-separated): ").split(",")
+    categories = input(
+        "Enter the categories of the book (comma-separated): ").split(",")
     tags = input("Enter the tags of the book (comma-separated): ").split(",")
 
     return title, author, isbn, publication_year, quantity, categories, tags
 
 
+# This function is used to take the input from the user to update a book
 def update_book_input():
     init(autoreset=True)
-      # clear screen
+    # clear screen
     print("\033[H\033[J")
-    
+
     print(f"\n {Fore.GREEN}*********** Update Book **************")
 
     isbn = input("Enter the ISBN of the book to update: ")
     title = input("Enter the new title (press Enter to skip): ") or None
     author = input("Enter the new author (press Enter to skip): ") or None
-    
+
     publication_year = None
-    year_input = input("Enter the new publication year (press Enter to skip): ")
+    year_input = input(
+        "Enter the new publication year (press Enter to skip): ")
     if year_input:
         try:
             publication_year = int(year_input)
@@ -114,29 +125,35 @@ def update_book_input():
         except ValueError:
             print("Invalid quantity. Skipping quantity update.")
 
-    categories_input = input("Enter the new categories (comma-separated, press Enter to skip): ")
-    categories = [cat.strip() for cat in categories_input.split(",")] if categories_input else None
+    categories_input = input(
+        "Enter the new categories (comma-separated, press Enter to skip): ")
+    categories = [cat.strip() for cat in categories_input.split(
+        ",")] if categories_input else None
 
-    tags_input = input("Enter the new tags (comma-separated, press Enter to skip): ")
-    tags = [tag.strip() for tag in tags_input.split(",")] if tags_input else None
+    tags_input = input(
+        "Enter the new tags (comma-separated, press Enter to skip): ")
+    tags = [tag.strip()
+            for tag in tags_input.split(",")] if tags_input else None
 
     return isbn, title, author, publication_year, quantity, categories, tags
 
 
+# This function is used to take the input from the user to delete a book after confirmation
 def delete_book_input():
-        init(autoreset=True)
+    init(autoreset=True)
 
-        # clear screen
-        print("\033[H\033[J")
+    # clear screen
+    print("\033[H\033[J")
 
-        isbn = input(f"Enter the ISBN of the book to delete: ")
+    isbn = input(f"Enter the ISBN of the book to delete: ")
 
-        while True:
-            confirmation = input(f"{Fore.YELLOW}Do you want to delete this book? [yes/no]: ").lower()
-            if confirmation in ['yes', 'y']:
-                return isbn
-            elif confirmation in ['no', 'n']:
-                print(f"{Fore.RED}Deletion cancelled.")
-                return None
-            else:
-                print(f"{Fore.RED}Invalid input. Please enter 'yes' or 'no'.")
+    while True:
+        confirmation = input(
+            f"{Fore.YELLOW}Do you want to delete this book? [yes/no]: ").lower()
+        if confirmation in ['yes', 'y']:
+            return isbn
+        elif confirmation in ['no', 'n']:
+            print(f"{Fore.RED}Deletion cancelled.")
+            return None
+        else:
+            print(f"{Fore.RED}Invalid input. Please enter 'yes' or 'no'.")

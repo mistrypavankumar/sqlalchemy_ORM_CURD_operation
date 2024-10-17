@@ -18,6 +18,9 @@ book_tag = Table('book_tag', Base.metadata,
                  Column('tag_id', Integer, ForeignKey('tags.id'))
                  )
 
+# This Book class define the books table which contains
+# the details of the books like title, author, isbn, publication year
+
 
 class Book(Base):
     __tablename__ = 'books'
@@ -34,6 +37,7 @@ class Book(Base):
     tags = relationship("Tag", secondary=book_tag, back_populates="books")
 
 
+# This Category class define the categories table which contains
 class Category(Base):
     __tablename__ = 'categories'
 
@@ -44,6 +48,7 @@ class Category(Base):
                          back_populates="categories")
 
 
+# This Tag class define the tags table which contains
 class Tag(Base):
     __tablename__ = 'tags'
 
